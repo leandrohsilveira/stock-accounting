@@ -6,3 +6,12 @@
 .app-margin {
   @apply w-[98%] max-w-5xl;
 }
+
+.floating-label.error {
+
+  &>span:first-child,
+  &+.fieldset-label,
+  &>.input {
+    @apply border-error text-error;
+  }
+}

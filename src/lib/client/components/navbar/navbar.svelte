@@ -1,16 +1,17 @@
 <script lang="ts">
   import { useTranslate } from '$lib/lang'
-  import type { UserData } from '$lib/server/auth/model'
+  import type { UserData } from '$lib/shared/models'
   import { literals } from './navbar.i18n'
 
   interface Props {
     currentUser: UserData | null
     currentUrl: URL
     formId: string
+    updateUrl: string
   }
 
   const t = useTranslate(literals)
-  let { currentUser, currentUrl, formId }: Props = $props()
+  let { currentUser, currentUrl, formId, updateUrl }: Props = $props()
 </script>
 
 <header class="navbar bg-primary text-primary-content justify-center">
@@ -30,6 +31,9 @@
         id="auth-popover"
         style="position-anchor:--auth-anchor;"
       >
+        <li>
+          <a href={updateUrl}>Profile</a>
+        </li>
         <li>
           <button type="submit" form={formId}>{$t('logout')}</button>
         </li>

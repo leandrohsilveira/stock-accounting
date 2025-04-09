@@ -1,8 +1,9 @@
 import { DATABASE_KEY, DATABASE_URL } from '$env/static/private'
 import { createServerClient } from '@supabase/ssr'
 import type { Cookies } from '@sveltejs/kit'
+import type { DatabaseService } from '../database'
 
-export function createDatabase(cookies: Cookies) {
+export function createDatabase(cookies: Cookies): DatabaseService {
   return createServerClient(DATABASE_URL, DATABASE_KEY, {
     cookies: {
       getAll: () => cookies.getAll(),

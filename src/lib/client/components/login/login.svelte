@@ -1,45 +1,65 @@
 <script lang="ts">
+  import { enhance } from '$app/forms'
   import { Title } from '$lib/client/components'
   import { useTranslate } from '$lib/lang'
+  import {
+    passwordCredentialsFormMap,
+    type UsernamePasswordCredentialsData,
+  } from '$lib/shared/models'
+  import { createForm, createFormState, type ErrorsMap } from '$lib/shared/util/form'
+  import Field from '../field.svelte'
+  import Fieldset from '../fieldset.svelte'
   import { literals } from './login.i18n'
 
   interface Props {
     action?: string
+    next: string
+    errors?: ErrorsMap<UsernamePasswordCredentialsData>
   }
 
   const t = useTranslate(literals)
 
-  let { action }: Props = $props()
+  let { action, next, errors }: Props = $props()
+
+  const state = createFormState<UsernamePasswordCredentialsData>(() => errors ?? null)
+
+  const form = createForm(passwordCredentialsFormMap, { state })
 </script>
 
 <Title name={$t('title')} />
 
-<form class="flex flex-col items-center" method="POST" {action} data-sveltekit-keepfocus>
-  <fieldset class="fieldset bg-base-200 border-base-300 rounded-box w-sm gap-4 border p-4">
-    <legend class="fieldset-legend">{$t('title')}</legend>
-
-    <label for="username" class="floating-label flex">
-      <span>{$t('email')}</span>
+<form
+  class="flex flex-col items-center"
+  method="POST"
+  {action}
+  data-sveltekit-keepfocus
+  use:enhance
+  use:form
+>
+  <input type="hidden" name="next" value={next} />
+  <Fieldset title={$t('title')}>
+    <Field id="username" label={$t('email')} error={state.errors.username}>
       <input
         type="email"
         id="username"
         name="username"
         class="input w-full"
         placeholder={$t('email')}
+        autocomplete="username"
       />
-    </label>
+    </Field>
 
-    <label for="password" class="floating-label flex">
-      <span>{$t('password')}</span>
+    <Field id="password" label={$t('password')} error={state.errors.password}>
       <input
         type="password"
         id="password"
         name="password"
         class="input w-full"
         placeholder={$t('password')}
+        autocomplete="current-password"
       />
-    </label>
+    </Field>
 
     <button class="btn btn-primary" type="submit">{$t('submit')}</button>
-  </fieldset>
+  </Fieldset>
 </form>
