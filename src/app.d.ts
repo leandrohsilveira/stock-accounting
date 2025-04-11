@@ -1,6 +1,6 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
-import type { AuthService, DatabaseService } from '$lib/server/services'
+import type { AuthService, CustomerService, DatabaseService } from '$lib/server/services'
 
 // for information about these interfaces
 declare global {
@@ -9,6 +9,7 @@ declare global {
     interface Locals {
       database: DatabaseService
       auth: AuthService
+      customer: CustomerService
     }
     // interface PageData {}
     // interface PageState {}
@@ -16,4 +17,4 @@ declare global {
   }
 }
 
-export { }
+export {}

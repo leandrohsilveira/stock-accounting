@@ -1,4 +1,5 @@
 import { AuthServiceImpl } from '$lib/server/services/impl/auth'
+import { CustomerServiceImpl } from '$lib/server/services/impl/customer'
 import { createDatabase } from '$lib/server/services/impl/database'
 import type { Handle } from '@sveltejs/kit'
 import { sequence } from '@sveltejs/kit/hooks'
@@ -19,4 +20,10 @@ const auth: Handle = ({ event, resolve }) => {
   return resolve(event)
 }
 
-export const handle = sequence(database, auth)
+const customer: Handle = ({ event, resolve }) => {
+  event.locals.customer = new CustomerServiceImpl(event.locals.database)
+
+  return resolve(event)
+}
+
+export const handle = sequence(database, auth, customer)
