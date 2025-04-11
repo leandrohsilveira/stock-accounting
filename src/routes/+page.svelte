@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Title } from '$lib/client/components'
+  import Title from '$lib/client/components/title.svelte'
 </script>
 
 <Title name="Home" />

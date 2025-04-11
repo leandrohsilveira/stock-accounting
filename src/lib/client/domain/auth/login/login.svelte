@@ -1,14 +1,14 @@
 <script lang="ts">
   import { enhance } from '$app/forms'
-  import { Title } from '$lib/client/components'
   import { useTranslate } from '$lib/lang'
   import {
     passwordCredentialsFormMap,
     type UsernamePasswordCredentialsData,
   } from '$lib/shared/models'
   import { createForm, createFormState, type ErrorsMap } from '$lib/shared/util/form'
-  import Field from '../field.svelte'
-  import Fieldset from '../fieldset.svelte'
+  import Title from '$lib/client/components/title.svelte'
+  import Field from '$lib/client/components/field.svelte'
+  import Fieldset from '$lib/client/components/fieldset.svelte'
   import { literals } from './login.i18n'
 
   interface Props {

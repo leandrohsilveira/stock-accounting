@@ -9,10 +9,10 @@
     type UserUpdateData,
   } from '$lib/shared/models'
   import { createForm, createFormState, type ErrorsMap } from '$lib/shared/util/form'
-  import Field from '../field.svelte'
-  import Fieldset from '../fieldset.svelte'
-  import Title from '../title.svelte'
-  import { UserDataForm } from '../user-data-form'
+  import Field from '$lib/client/components/field.svelte'
+  import Fieldset from '$lib/client/components/fieldset.svelte'
+  import Title from '$lib/client/components/title.svelte'
+  import { UserDataForm } from '$lib/client/domain/user/user-data-form'
   import { literals } from './current-user.i18n'
 
   interface Props {

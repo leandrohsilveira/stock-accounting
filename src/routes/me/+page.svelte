@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CurrentUser } from '$lib/client/components/current-user'
+  import { CurrentUser } from '$lib/client/domain/auth/current-user'
   import type { PageProps } from './$types'
 
   let { data, form }: PageProps = $props()

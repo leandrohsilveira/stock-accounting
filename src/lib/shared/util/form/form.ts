@@ -2,7 +2,6 @@ import type {
   FormMapInput,
   ValidationResult,
   ErrorsMap,
-  Field,
   NumberField,
   FileField,
   TextField,
@@ -10,6 +9,7 @@ import type {
   PatternField,
   EmailField,
   StringField,
+  AnyField,
 } from './types'
 
 const EMAIL_REGEX = /^[A-z0-9.-_]+@[A-z0-9.-_]+/
@@ -26,7 +26,7 @@ export function validateFormData<T>(
 
   let valid = true
 
-  for (const [name, field] of Object.entries(input) as [keyof T, Field][]) {
+  for (const [name, field] of Object.entries(input) as [keyof T, AnyField][]) {
     const formValue = data.get(String(name))
 
     if (field.required && (formValue === '' || (formValue ?? null) === null)) {
@@ -219,7 +219,7 @@ const validateEmailField = validateStringField<EmailField>((name, value, _field,
   return valid
 })
 
-function validateStringField<F extends StringField>(
+function validateStringField<F extends StringField | ChoiceField>(
   validator: <T>(
     name: keyof T,
     value: string,

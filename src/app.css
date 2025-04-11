@@ -8,10 +8,9 @@
 }
 
 .floating-label.error {
-
-  &>span:first-child,
-  &+.fieldset-label,
-  &>.input {
+  & > span:first-child,
+  & + .fieldset-label,
+  & > .input {
     @apply border-error text-error;
   }
 }

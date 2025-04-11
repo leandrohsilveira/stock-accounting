@@ -2,7 +2,7 @@
   import { useTranslate } from '$lib/lang'
   import type { UserData, UserUpdateData } from '$lib/shared/models'
   import type { ErrorsMap } from '$lib/shared/util/form'
-  import Field from '../field.svelte'
+  import Field from '$lib/client/components/field.svelte'
   import { literals } from './user-data-form.i18n'
 
   interface Props {

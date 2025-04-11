@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Login } from '$lib/client/components/login'
+  import { Login } from '$lib/client/domain/auth/login'
 
   let { data, form } = $props()
 </script>

@@ -9,7 +9,7 @@ import { assert } from '$lib/shared/util'
 import { redirect } from '@sveltejs/kit'
 
 export class AuthServiceImpl implements AuthService {
-  constructor(private database: DatabaseService) { }
+  constructor(private database: DatabaseService) {}
 
   async login(credentials: UserCredentialsData) {
     assert(credentials.type === 'password', 'Only the password credentials type is supported')

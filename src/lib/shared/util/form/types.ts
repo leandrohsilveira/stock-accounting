@@ -1,85 +1,117 @@
 export type FieldTypes = 'text' | 'file' | 'email' | 'number' | 'choice' | 'pattern'
 
-interface AbstractField {
-  required?: boolean
-  type: FieldTypes
-  default?: string
-}
-
-export type RequiredField<T extends FieldKind> = T &
-  (
-    | {
+type RequiredField<T> =
+  | {
       required: true
       default?: undefined
     }
-    | {
+  | {
       required?: false
-      default: T extends StringField<infer D> ? D : string
+      default: T
     }
-  )
 
-export type OptionalField<T extends FieldKind> = T & {
+type OptionalField<T> = {
   required?: false
-  default?: T extends StringField<infer D> ? D : string
+  default?: T
 }
 
-export type Field = OptionalField<FieldKind> | RequiredField<FieldKind>
+type AbstractField = {
+  type: FieldTypes
+}
 
-export type FieldKind = StringField | NumberField | FileField
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyField = (Field<any> | ChoiceField<any>) & (OptionalField<any> | RequiredField<any>)
 
-export type StringField<T extends string = string> =
-  | TextField
-  | ChoiceField<T>
-  | EmailField
-  | PatternField
+export type Field<T> = T extends string
+  ? StringField
+  : T extends number
+    ? NumberField
+    : T extends File
+      ? FileField
+      : never
 
-export interface TextField extends AbstractField {
+export type StringField = TextField | EmailField | PatternField
+
+export type TextField = AbstractField & {
   type: 'text'
   minLength?: number
   maxLength?: number
 }
 
-export interface PatternField extends AbstractField {
+export type PatternField = AbstractField & {
   type: 'pattern'
   pattern: string
   name: string
 }
 
-export interface ChoiceField<O extends string = string> extends AbstractField {
+export type ChoiceField<T = string> = AbstractField & {
   type: 'choice'
-  options: O[]
-  default?: O
+  options: T[]
 }
 
-export interface NumberField extends AbstractField {
+export type NumberField = AbstractField & {
   type: 'number'
   decimal?: number
   min?: number
   max?: number
 }
 
-export interface EmailField extends AbstractField {
+export type EmailField = AbstractField & {
   type: 'email'
   maxLength?: number
 }
 
-export interface FileField extends AbstractField {
+export type FileField = AbstractField & {
   type: 'file'
   maxSize?: number
 }
 
-type FormMapField<T> = T extends FileField
-  ? FileField
-  : T extends number
-  ? NumberField
-  : T extends string
-  ? StringField<T>
-  : StringField
+interface Test {
+  name: string
+  gender: 'woman' | 'men' | 'other'
+  nickname?: string
+  age: number
+  death?: number
+  image: File
+  deathCert?: File
+}
+
+const test: FormMapInput<Test> = {
+  name: {
+    required: true,
+    type: 'text',
+  },
+  gender: {
+    type: 'choice',
+    options: ['men', 'woman', 'other'] as const,
+    default: 'men',
+  },
+  nickname: {
+    type: 'text',
+  },
+  age: {
+    required: true,
+    type: 'number',
+  },
+  death: {
+    type: 'number',
+  },
+  image: {
+    type: 'file',
+    default: new File(['as'], ''),
+  },
+  deathCert: {
+    type: 'file',
+  },
+}
+
+console.log(test.name)
 
 export type FormMapInput<T> = {
-  [K in keyof T]: T[K] extends undefined | null
-  ? OptionalField<FormMapField<T[K]>>
-  : RequiredField<FormMapField<T[K]>>
+  [K in keyof T]-?: (T[K] extends string | number | File
+    ? RequiredField<T[K]>
+    : OptionalField<T[K]>) &
+    (T[K] extends string ? Field<T[K]> | ChoiceField<T[K]> : Field<T[K]>)
 }
 
 export type ValidationResult<T> = ValidationSuccess<T> | ValidationError<T>
