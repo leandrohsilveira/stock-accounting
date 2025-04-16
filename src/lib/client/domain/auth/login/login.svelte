@@ -5,11 +5,12 @@
     passwordCredentialsFormMap,
     type UsernamePasswordCredentialsData,
   } from '$lib/shared/models'
-  import { createForm, createFormState, type ErrorsMap } from '$lib/shared/util/form'
+  import { createFormState, type ErrorsMap } from '$lib/shared/util/form'
   import Title from '$lib/client/components/title.svelte'
   import Field from '$lib/client/components/field.svelte'
   import Fieldset from '$lib/client/components/fieldset.svelte'
   import { literals } from './login.i18n'
+  import { enhanced } from '$lib/client/form'
 
   interface Props {
     action?: string
@@ -22,8 +23,6 @@
   let { action, next, errors }: Props = $props()
 
   const state = createFormState<UsernamePasswordCredentialsData>(() => errors ?? null)
-
-  const form = createForm(passwordCredentialsFormMap, { state })
 </script>
 
 <Title name={$t('title')} />
@@ -33,8 +32,7 @@
   method="POST"
   {action}
   data-sveltekit-keepfocus
-  use:enhance
-  use:form
+  use:enhance={enhanced(passwordCredentialsFormMap, { state })}
 >
   <input type="hidden" name="next" value={next} />
   <Fieldset title={$t('title')}>
