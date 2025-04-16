@@ -35,18 +35,17 @@ export class CustomerServiceImpl implements CustomerService {
       .from('customer')
       .select('id, name, doc_type, doc_value')
       .eq('id', id)
+      .single()
 
     assertNoError(error, 'unable to insert customer')
 
-    const [item] = data
-
-    if (item === null) return null
+    if (data === null) return null
 
     return {
-      id: item.id,
-      doc_type: item.doc_type,
-      doc_value: item.doc_value,
-      name: item.name,
+      id: data.id,
+      doc_type: data.doc_type,
+      doc_value: data.doc_value,
+      name: data.name,
     }
   }
 
