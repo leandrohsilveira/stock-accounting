@@ -6,7 +6,7 @@ import type {
 } from '$lib/shared/models'
 
 export interface CustomerService {
-  create(data: CustomerMutationData): Promise<CustomerDisplayData>
+  create(user_id: string, data: CustomerMutationData): Promise<CustomerDisplayData>
   getById(id: string): Promise<CustomerDisplayData | null>
   list(page: Pageable): Promise<ListResult<CustomerDisplayData>>
 }

@@ -10,10 +10,10 @@ import { assertNoError, type DatabaseService, type CustomerService } from '$lib/
 export class CustomerServiceImpl implements CustomerService {
   constructor(private database: DatabaseService) {}
 
-  async create(payload: CustomerMutationData): Promise<CustomerDisplayData> {
+  async create(user_id: string, payload: CustomerMutationData): Promise<CustomerDisplayData> {
     const { data, error } = await this.database
       .from('customer')
-      .insert(payload)
+      .insert({ ...payload, user_id })
       .select('id, name, doc_type, doc_value')
 
     assertNoError(error, 'unable to insert customer')
