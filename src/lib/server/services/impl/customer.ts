@@ -30,6 +30,24 @@ export class CustomerServiceImpl implements CustomerService {
     }
   }
 
+  async update(id: string, payload: CustomerMutationData): Promise<CustomerDisplayData> {
+    const { data, error } = await this.database
+      .from('customer')
+      .update({ ...payload })
+      .eq('id', id)
+      .select('id, name, doc_type, doc_value')
+      .single()
+
+    assertNoError(error, 'unable to update customer')
+
+    return {
+      id: data.id,
+      doc_type: data.doc_type,
+      doc_value: data.doc_value,
+      name: data.name,
+    }
+  }
+
   async getById(id: string): Promise<CustomerDisplayData | null> {
     const { data, error } = await this.database
       .from('customer')
