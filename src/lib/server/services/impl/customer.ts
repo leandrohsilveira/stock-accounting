@@ -50,10 +50,16 @@ export class CustomerServiceImpl implements CustomerService {
     }
   }
 
-  async list({ limit, offset }: Pageable): Promise<ListResult<CustomerDisplayData>> {
+  async list(
+    user_id: string,
+    search: string,
+    { limit, offset }: Pageable,
+  ): Promise<ListResult<CustomerDisplayData>> {
     const { data, error: dataError } = await this.database
       .from('customer')
-      .select('id, name, doc_type, doc_value')
+      .select('id, name, doc_type, doc_value, user_id')
+      .eq('user_id', user_id)
+      .or(`name.ilike.%${search}%,doc_type.ilike.%${search}%,doc_value.ilike.%${search}%`)
       .range(offset, limit)
 
     assertNoError(dataError, 'unable to fetch customers')
@@ -61,6 +67,7 @@ export class CustomerServiceImpl implements CustomerService {
     const { count, error: countError } = await this.database
       .from('customer')
       .select('id', { count: 'exact', head: true })
+      .eq('user_id', user_id)
 
     assertNoError(countError, 'unable to count customers')
     assert(count !== null, 'count should not be null')
