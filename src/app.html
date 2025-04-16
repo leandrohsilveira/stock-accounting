@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     %sveltekit.head%
   </head>
-  <body data-sveltekit-preload-data="hover">
+  <body data-sveltekit-preload-data="hover" loading nojs>
+    <script>document.body.removeAttribute('nojs')</script>
     <div class="flex w-full flex-col items-center gap-4">%sveltekit.body%</div>
+    <div loading class="bg-base-content/5 absolute items-center justify-center">
+      <span class="loading bg-primary loading-ring h-40 w-40"></span>
+    </div>
   </body>
 </html>

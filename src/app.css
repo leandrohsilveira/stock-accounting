@@ -14,3 +14,30 @@
     @apply border-error text-error;
   }
 }
+
+.input :where(input) {
+  @apply px-0;
+
+  &:focus,
+  &:focus-within,
+  &:focus-visible {
+    @apply ring-0;
+  }
+}
+
+body[nojs],
+body {
+  & > [loading] {
+    &,
+    & > .loading {
+      @apply hidden;
+    }
+  }
+}
+
+body[loading]:not([nojs]) > [loading] {
+  &,
+  & > .loading {
+    @apply inset-0 flex;
+  }
+}

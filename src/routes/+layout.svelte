@@ -1,11 +1,18 @@
 <script lang="ts">
   import '../app.css'
-  import { page } from '$app/state'
+  import { navigating, page } from '$app/state'
   import type { LayoutProps } from './$types'
   import { Navbar } from '$lib/client/components/navbar'
   import { provideAuthContext } from '$lib/client/contexts'
 
   let { children, data }: LayoutProps = $props()
+
+  const isNavigating = $derived(['goto', 'link', 'popstate'].includes(navigating.type ?? ''))
+
+  $effect(() => {
+    if (isNavigating) document.body.setAttribute('loading', '')
+    else document.body.removeAttribute('loading')
+  })
 
   provideAuthContext(() => ({
     currentUser: data.currentUser,
