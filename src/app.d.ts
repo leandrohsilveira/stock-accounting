@@ -1,4 +1,5 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
+import '@poppanator/sveltekit-svg/dist/svg'
 
 import type { AuthService, CustomerService, DatabaseService } from '$lib/server/services'
 

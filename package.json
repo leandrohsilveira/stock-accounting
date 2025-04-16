@@ -22,6 +22,7 @@
     "@i18nlite/core": "^2.0.0",
     "@i18nlite/svelte": "^2.0.0",
     "@playwright/test": "^1.49.1",
+    "@poppanator/sveltekit-svg": "^5.0.1",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "@sveltejs/adapter-auto": "^6.0.0",
