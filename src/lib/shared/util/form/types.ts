@@ -66,47 +66,6 @@ export type FileField = AbstractField & {
   maxSize?: number
 }
 
-interface Test {
-  name: string
-  gender: 'woman' | 'men' | 'other'
-  nickname?: string
-  age: number
-  death?: number
-  image: File
-  deathCert?: File
-}
-
-const test: FormMapInput<Test> = {
-  name: {
-    required: true,
-    type: 'text',
-  },
-  gender: {
-    type: 'choice',
-    options: ['men', 'woman', 'other'] as const,
-    default: 'men',
-  },
-  nickname: {
-    type: 'text',
-  },
-  age: {
-    required: true,
-    type: 'number',
-  },
-  death: {
-    type: 'number',
-  },
-  image: {
-    type: 'file',
-    default: new File(['as'], ''),
-  },
-  deathCert: {
-    type: 'file',
-  },
-}
-
-console.log(test.name)
-
 export type FormMapInput<T> = {
   [K in keyof T]-?: (T[K] extends string | number | File
     ? RequiredField<T[K]>
