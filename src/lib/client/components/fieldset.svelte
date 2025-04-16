@@ -10,7 +10,7 @@
 </script>
 
 <fieldset
-  class="fieldset bg-base-200 border-base-300 rounded-box flex flex-1 flex-col gap-4 border p-4"
+  class="fieldset bg-base-100 shadow-base-300 border-base-200 rounded-box flex flex-1 flex-col gap-4 border p-4 shadow-lg"
 >
   <legend class="fieldset-legend">{title}</legend>
 

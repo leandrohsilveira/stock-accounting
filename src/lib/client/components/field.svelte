@@ -12,11 +12,12 @@
   let { id, label, children, error = null }: Props = $props()
 </script>
 
-<label for={id} class="floating-label flex" class:error={!!error}>
-  <span>{label}</span>
-
-  {@render children()}
-</label>
-{#if error}
-  <span class="fieldset-label text-error">{error.message}</span>
-{/if}
+<div class="flex w-full flex-col gap-4">
+  <label for={id} class="floating-label flex w-full" class:error={!!error}>
+    <span class="label">{label}</span>
+    {@render children()}
+  </label>
+  {#if error}
+    <span class="fieldset-label text-error">{error.message}</span>
+  {/if}
+</div>
