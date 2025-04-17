@@ -85,6 +85,7 @@ export class CustomerServiceImpl implements CustomerService {
       .from('customer')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user_id)
+      .or(`name.ilike.%${search}%,doc_type.ilike.%${search}%,doc_value.ilike.%${search}%`)
 
     assertNoError(countError, 'unable to count customers')
     assert(count !== null, 'count should not be null')
