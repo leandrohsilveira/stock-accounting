@@ -1,5 +1,5 @@
 import type { StockMutationData, StockDisplayData, Pageable, ListResult } from '$lib/shared/models'
-import { assert } from 'vitest'
+import { assert } from '$lib/shared/util'
 import { assertNoError, type DatabaseService } from '../database'
 import type { StockService } from '../stock'
 
