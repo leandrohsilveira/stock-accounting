@@ -11,7 +11,7 @@ export interface StockMutationData {
   display_name?: string
 }
 
-export const stockMutationDataFormMap: FormMapInput<StockMutationData> = {
+export const stockMutationFormMap: FormMapInput<StockMutationData> = {
   symbol_id: {
     type: 'text',
     required: true,
