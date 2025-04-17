@@ -55,7 +55,7 @@ export class CustomerServiceImpl implements CustomerService {
       .eq('id', id)
       .maybeSingle()
 
-    assertNoError(error, 'unable to insert customer')
+    assertNoError(error, 'unable to get customer by id')
 
     if (data === null) return null
 
