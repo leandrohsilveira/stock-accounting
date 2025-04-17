@@ -15,18 +15,17 @@ export class CustomerServiceImpl implements CustomerService {
       .from('customer')
       .insert({ ...payload, user_id })
       .select('id, name, doc_type, doc_value')
+      .single()
 
     assertNoError(error, 'unable to insert customer')
 
-    const [item] = data
-
-    assert(item !== null, 'customer insert must return at least one item')
+    assert(data !== null, 'customer insert must return at least one item')
 
     return {
-      id: item.id,
-      doc_type: item.doc_type,
-      doc_value: item.doc_value,
-      name: item.name,
+      id: data.id,
+      doc_type: data.doc_type,
+      doc_value: data.doc_value,
+      name: data.name,
     }
   }
 
