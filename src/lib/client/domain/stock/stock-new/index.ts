@@ -1,1 +1,1 @@
-export { default as StockNew } from './customer-new.svelte'
+export { default as StockNew } from './stock-new.svelte'
