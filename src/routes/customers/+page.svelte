@@ -12,6 +12,9 @@
     search={data.search}
     page={data.page}
     limit={data.limit}
-    path="/customers"
+    links={{
+      new: '/customers/new',
+      edit: '/customers/{0}/edit',
+    }}
   />
 </form>

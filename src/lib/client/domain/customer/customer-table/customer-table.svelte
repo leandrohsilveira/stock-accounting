@@ -6,6 +6,7 @@
   import type { CustomerDisplayData, ListResult } from '$lib/shared/models'
   import { useTranslate } from '$lib/lang'
   import { literals } from './customer-table.i18n'
+  import { formatText } from '@i18nlite/core'
 
   interface Props {
     data: ListResult<CustomerDisplayData>
@@ -13,10 +14,13 @@
     search?: string
     page?: number
     limit?: number
-    path: string
+    links: {
+      new: string
+      edit: string
+    }
   }
 
-  const { data, loading, path, search, page, limit }: Props = $props()
+  const { data, loading, links, search, page, limit }: Props = $props()
 
   const t = useTranslate(literals)
 
@@ -46,7 +50,7 @@
     </tr>
   {/snippet}
   {#snippet toolbar()}
-    <a href="{path}/new" tabindex={0} class="btn btn-primary">
+    <a href={links.new} tabindex={0} class="btn btn-primary">
       <AddIcon fill="currentColor" />
       {$t('add')}
     </a>
@@ -63,7 +67,7 @@
       <td>{item.name}</td>
       <td>{item.doc_type?.toUpperCase()} {item.doc_value}</td>
       <td>
-        <a href="{path}/{item.id}" tabindex={0} class="btn btn-ghost btn-circle">
+        <a href={formatText(links.edit, item.id)} tabindex={0} class="btn btn-ghost btn-circle">
           <EditIcon fill="currentColor" />
         </a>
       </td>
