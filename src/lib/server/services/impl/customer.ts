@@ -53,7 +53,7 @@ export class CustomerServiceImpl implements CustomerService {
       .from('customer')
       .select('id, name, doc_type, doc_value')
       .eq('id', id)
-      .single()
+      .maybeSingle()
 
     assertNoError(error, 'unable to insert customer')
 
