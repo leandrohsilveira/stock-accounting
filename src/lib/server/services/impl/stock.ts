@@ -1,4 +1,9 @@
-import type { StockMutationData, StockDisplayData, Pageable, ListResult } from '$lib/shared/models'
+import type {
+  StockMutationData,
+  StockDisplayData,
+  ListResult,
+  ListParams,
+} from '$lib/shared/models'
 import { assert } from '$lib/shared/util'
 import { assertNoError, type DatabaseService } from '../database'
 import type { StockService } from '../stock'
@@ -61,8 +66,7 @@ export class StockServiceImpl implements StockService {
 
   async list(
     user_id: string,
-    search: string,
-    { offset, limit }: Pageable,
+    { search, offset, limit }: ListParams,
   ): Promise<ListResult<StockDisplayData>> {
     const { data, error: dataError } = await this.database
       .from('stock')

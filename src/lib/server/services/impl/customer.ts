@@ -1,8 +1,8 @@
 import type {
   CustomerMutationData,
   CustomerDisplayData,
-  Pageable,
   ListResult,
+  ListParams,
 } from '$lib/shared/models'
 import { assert } from '$lib/shared/util'
 import { assertNoError, type DatabaseService, type CustomerService } from '$lib/server/services'
@@ -68,8 +68,7 @@ export class CustomerServiceImpl implements CustomerService {
 
   async list(
     user_id: string,
-    search: string,
-    { limit, offset }: Pageable,
+    { search, limit, offset }: ListParams,
   ): Promise<ListResult<CustomerDisplayData>> {
     const { data, error: dataError } = await this.database
       .from('customer')
