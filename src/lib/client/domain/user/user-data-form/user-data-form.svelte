@@ -7,12 +7,13 @@
 
   interface Props {
     data?: UserData
+    loading?: boolean
     errors: ErrorsMap<UserUpdateData>
   }
 
   const t = useTranslate(literals)
 
-  let { data, errors }: Props = $props()
+  let { data, errors, loading = false }: Props = $props()
 </script>
 
 <Field id="displayName" label={$t('name')} error={errors.displayName}>
@@ -23,6 +24,7 @@
     class="input w-full"
     placeholder={$t('name')}
     autocomplete="name"
+    disabled={loading}
     value={data?.displayName ?? ''}
   />
 </Field>
@@ -36,6 +38,6 @@
     placeholder={$t('email')}
     autocomplete="username"
     value={data?.email ?? ''}
-    disabled={!!data}
+    disabled={!!data || loading}
   />
 </Field>

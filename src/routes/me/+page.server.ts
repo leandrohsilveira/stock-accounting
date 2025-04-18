@@ -1,5 +1,6 @@
 import { changePasswordFormMap, userUpdateFormMap } from '$lib/shared/models'
 import { validateFormData } from '$lib/shared/util/form'
+import { fail } from '@sveltejs/kit'
 import type { Actions, PageServerLoadEvent } from './$types'
 
 export async function load({ locals: { auth } }: PageServerLoadEvent) {
@@ -19,7 +20,7 @@ export const actions = {
     const { invalid, value, errors } = validateFormData(form, userUpdateFormMap)
 
     if (invalid) {
-      return { success: false, updateErrors: errors }
+      return fail(400, { success: false, updateErrors: errors })
     }
 
     await auth.updateCurrentUser(value)
@@ -35,7 +36,14 @@ export const actions = {
     const { invalid, value, errors } = validateFormData(form, changePasswordFormMap)
 
     if (invalid) {
-      return { success: false, passwordErrors: errors }
+      return fail(400, { success: false, passwordErrors: errors })
+    }
+
+    if (value.newPassword !== value.confirmPassword) {
+      return fail(400, {
+        success: false,
+        message: 'The password confirmation does not match the new password',
+      })
     }
 
     await auth.changePassword(value)
