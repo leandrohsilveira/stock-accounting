@@ -1,5 +1,5 @@
 import { getRequestEvent } from '$app/server'
-import type { AuthService, DatabaseService } from '$lib/server/services'
+import { assertNoError, type AuthService, type DatabaseService } from '$lib/server/services'
 import type {
   UserChangePasswordData,
   UserCredentialsData,
@@ -18,7 +18,7 @@ export class AuthServiceImpl implements AuthService {
       password: credentials.password,
     })
 
-    assert(error === null, error?.message ?? 'Authentication failed')
+    assertNoError(error, 'Authentication failed')
 
     const { user } = data
     assert(user.email, 'User must have a email!')
@@ -43,7 +43,7 @@ export class AuthServiceImpl implements AuthService {
 
   async logout() {
     const { error } = await this.database.auth.signOut()
-    assert(error === null, error?.message ?? 'Logout failure')
+    assertNoError(error, 'Logout failure')
   }
 
   async getCurrentUser() {
@@ -51,16 +51,18 @@ export class AuthServiceImpl implements AuthService {
       data: { session },
       error: sessionError,
     } = await this.database.auth.getSession()
-    assert(sessionError === null, sessionError?.message ?? 'Retrieve session failed')
+    assertNoError(sessionError, 'Retrieve session failed')
     if (!session) return null
 
     const {
       data: { user },
       error: userError,
     } = await this.database.auth.getUser()
-    assert(userError === null, userError?.message ?? 'Retrieve user from session failed')
+    assertNoError(userError, 'Retrieve user from session failed')
+
     if (!user) return null
     assert(user.email, 'User must have a email!')
+
     return {
       id: user.id,
       email: user.email,
@@ -73,7 +75,7 @@ export class AuthServiceImpl implements AuthService {
       data: info,
     })
 
-    assert(error === null, error?.message ?? 'Update current user failed')
+    assertNoError(error, 'Update current user failed')
 
     assert(data.user.email, 'User must have a email!')
     return {
@@ -88,6 +90,6 @@ export class AuthServiceImpl implements AuthService {
       password: data.newPassword,
     })
 
-    assert(error === null, error?.message ?? 'Update current user password failed')
+    assertNoError(error, 'Update current user password failed')
   }
 }
