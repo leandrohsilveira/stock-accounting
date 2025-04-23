@@ -14,12 +14,7 @@ import type {
 
 const EMAIL_REGEX = /^[A-z0-9.-_]+@[A-z0-9.-_]+/
 
-export function validateFormData<T>(
-  data: FormData | HTMLFormElement,
-  input: FormMapInput<T>,
-): ValidationResult<T> {
-  if (!(data instanceof FormData)) return validateFormData(new FormData(data), input)
-
+export function validateFormData<T>(data: FormData, input: FormMapInput<T>): ValidationResult<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const value = {} as any
   const errors = {} as ErrorsMap<T>
@@ -154,7 +149,7 @@ function validateFileField<T>(
 const validateTextField = validateStringField<TextField>((name, value, field, errors, valid) => {
   if (typeof field.maxLength === 'number' && value.length > field.maxLength) {
     errors[name] = {
-      message: `Lenght limit of ${field.maxLength} exceeded`,
+      message: `Length limit of ${field.maxLength} exceeded`,
       key: 'maxLength',
       params: {
         maxLength: field.maxLength,

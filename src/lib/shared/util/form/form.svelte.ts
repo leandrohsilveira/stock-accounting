@@ -90,7 +90,7 @@ export function createForm<T>(input: FormMapInput<T>, options?: CreateFormOption
     }
 
     function handleSubmit(e: Event) {
-      const result = validateFormData(node, input)
+      const result = validateFormData(new FormData(node), input)
       if (result.invalid) {
         e.preventDefault()
         if (state) {
